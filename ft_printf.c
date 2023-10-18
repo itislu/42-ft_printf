@@ -169,7 +169,6 @@ int	print_argument(t_format *format, va_list *arg_ptr)
 	int	printed_count;
 
 	printed_count = 0;
-	printf("specifier: %c\n", format -> specifier);
 	if (format -> specifier == 'c')
 		printed_count = print_char(va_arg(*arg_ptr, int), format);
 	else if (format -> specifier == 's')
@@ -251,7 +250,7 @@ int	is_specifier(const char c)
 
 }*/
 
-
+/*
 int	main(void)
 {
 	int	ft_return;
@@ -262,10 +261,11 @@ int	main(void)
 	//int		i = -50000;
 
 	ft_printf("ft: |");
-	ft_return = ft_printf("%w%", "hello");
+	ft_return = ft_printf("'   %");
 	printf("|\nog: |");
-	og_return = printf("%w%", "hello");
+	og_return = printf("'   %");
 	printf("|");
 
 	printf("\nft_return: %d\nog_return: %d\n", ft_return, og_return);
 }
+*/
