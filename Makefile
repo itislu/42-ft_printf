@@ -32,7 +32,7 @@ ARFLAGS		=	rcs
 DEP			=	$(SRC:%.c=$D%.d)
 OBJ			=	$(SRC:%.c=$O%.o)
 
-.PHONY:			all bonus clean fclean re libft
+.PHONY:			all cleandep cleanobj clean fclean re
 
 all:			$(NAME)
 
@@ -40,9 +40,6 @@ $(NAME):		$(OBJ)
 				make -C $L
 				cp $Llibft.a ./$@
 				ar $(ARFLAGS) $(NAME) $^
-
-bonus:			$(OBJ) $(OBJBONUS)
-
 
 $(OBJ): $O%.o:	%.c | $O
 				$(CC) $(CFLAGS) -c $< -o $@
@@ -54,22 +51,28 @@ $O $D:
 				@mkdir -p $@
 
 cleandep:
-				rm -f $(wildcard $(DEP))
-
-cleandepdir:	cleandep
+ifeq ($(filter $(MAKECMDGOALS),clean fclean re),)
+				make -C $L cleandep
+endif
 				rm -rf $D
 
 cleanobj:
-				rm -f $(wildcard $(OBJ))
-
-cleanobjdir:	cleanobj
+ifeq ($(filter $(MAKECMDGOALS),clean fclean re),)
+				make -C $L cleanobj
+endif
 				rm -rf $O
 
-clean:			cleandepdir cleanobjdir
+clean:			cleandep cleanobj
+ifeq ($(filter $(MAKECMDGOALS),fclean re),)
+				make -C $L clean
+endif
 
 fclean:			clean
+				make -C $L fclean
 				rm -f $(NAME)
 
 re:				fclean all
 
+ifeq ($(filter $(MAKECMDGOALS),cleandep cleanobj clean fclean),)
 -include 		$(DEP)
+endif
