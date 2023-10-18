@@ -90,8 +90,8 @@ size_t	set_format(const char *f_str, int *i, t_format *format)
 	}
 	else
 	{
-		//*i = i_original;
-		return (i_original);
+		*i = i_original;
+		return (1);
 	}
 }
 
@@ -169,6 +169,7 @@ int	print_argument(t_format *format, va_list *arg_ptr)
 	int	printed_count;
 
 	printed_count = 0;
+	printf("specifier: %c\n", format -> specifier);
 	if (format -> specifier == 'c')
 		printed_count = print_char(va_arg(*arg_ptr, int), format);
 	else if (format -> specifier == 's')
@@ -250,20 +251,21 @@ int	is_specifier(const char c)
 
 }*/
 
-/*
+
 int	main(void)
 {
-	int	ft_result;
-	int	og_result;
+	int	ft_return;
+	int	og_return;
 
 	//char	c = 'C';
 	//char	*str = "";
 	//int		i = -50000;
 
-	ft_result = ft_printf("|%010.5i|", -216);
-	printf("\n");
-	og_result = printf("|%010.5i|", -216);
+	ft_printf("ft: |");
+	ft_return = ft_printf("%w%", "hello");
+	printf("|\nog: |");
+	og_return = printf("%w%", "hello");
+	printf("|");
 
-	printf("\nft_result: %d\nog_result: %d\n", ft_result, og_result);
+	printf("\nft_return: %d\nog_return: %d\n", ft_return, og_return);
 }
-*/
