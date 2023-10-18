@@ -79,7 +79,7 @@ static int	print_prefix(long nbr, t_format *format)
 	int	printed_count;
 
 	printed_count = 0;
-	if (format -> specifier == 'x' || format -> specifier == 'X')
+	if ((format -> specifier == 'x' || format -> specifier == 'X') && nbr != 0)
 	{
 		if (format -> hash)
 		{
