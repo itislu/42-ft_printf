@@ -1,23 +1,19 @@
-//#include "libft.h"	// Not working yet
 #include "ft_printf.h"
 
-/*
-gcc ft_printf.c libft/ft_putchar_fd.c -Ilibft -o ft_printf
-*/
-
 void	reset_format(t_format *format);
-int	parser(const char *f_str, int *i, t_format *format, va_list *arg_ptr);
+int		parser(const char *f_str, int *i, t_format *format, va_list *arg_ptr);
 size_t	set_format(const char *f_str, int *i, t_format *format);
 void	set_flags(const char *f_str, int *i, t_format *format);
 void	set_width(const char *f_str, int *i, t_format *format);
 void	set_precision(const char *f_str, int *i, t_format *format);
 void	set_specifier(const char *f_str, int *i, t_format *format);
-int	print_argument(t_format *format, va_list *arg_ptr);
+int		print_argument(t_format *format, va_list *arg_ptr);
 
 int	ft_printf(const char *f_str, ...)
 {
 	int			i;
 	int			printed_count;
+	int			temp;
 	t_format	format;
 	va_list		arg_ptr;
 
@@ -29,7 +25,13 @@ int	ft_printf(const char *f_str, ...)
 	while (f_str[i])
 	{
 		reset_format(&format);
-		printed_count += parser(f_str, &i, &format, &arg_ptr);
+		temp = parser(f_str, &i, &format, &arg_ptr);
+		if (temp == -1)
+		{
+			printed_count = temp;
+			break ;
+		}
+		printed_count += temp;
 	}
 	va_end(arg_ptr);
 	return (printed_count);
@@ -51,22 +53,29 @@ void	reset_format(t_format *format)
 int	parser(const char *f_str, int *i, t_format *format, va_list *arg_ptr)
 {
 	int	printed_count;
-	size_t	parsed_count;
+	ssize_t	parsed_count;
 
 	printed_count = 0;
 	parsed_count = 1;
 	if (f_str[*i] == '%')
 	{
 		parsed_count = set_format(f_str, i, format);
+		if (parsed_count == 0)
+			return (-1);
 		if (format -> specifier)
-		{
 			printed_count += print_argument(format, arg_ptr);
-		}
 	}
 	if (!format -> specifier)
 	{
-		printed_count += ft_putnstr_fd(&f_str[*i], parsed_count, 1);
-		(*i)++;
+		if (format -> precision == 0)
+		{
+			printed_count += ft_putnstr_fd_dotzero(&f_str[*i - parsed_count], parsed_count, 1);
+		}
+		else
+		{
+			printed_count += ft_putnstr_fd(&f_str[*i], parsed_count, 1);
+			(*i)++;
+		}
 	}
 	return (printed_count);
 }
@@ -82,8 +91,10 @@ size_t	set_format(const char *f_str, int *i, t_format *format)
 	set_flags(f_str, i, format);
 	set_width(f_str, i, format);
 	set_precision(f_str, i, format);
+	if (f_str[*i] == '\0')
+		return (0);
 	set_specifier(f_str, i, format);
-	if (format -> specifier)
+	if (format -> specifier || format -> precision == 0)
 	{
 		(*i)++;
 		return (*i - i_original);
@@ -256,16 +267,28 @@ int	main(void)
 	int	ft_return;
 	int	og_return;
 
-	//char	c = 'C';
-	//char	*str = "";
-	//int		i = -50000;
+	//char	c = 0;
+	//char	*str = (char *)c;
+	int		i = 500000;
+	//int		j = -1;
 
 	ft_printf("ft: |");
-	ft_return = ft_printf("'   %");
+	ft_return = ft_printf("%.-i%.-i", i);
 	printf("|\nog: |");
-	og_return = printf("'   %");
+	og_return = printf("%.-i%.-i", i);
 	printf("|");
 
 	printf("\nft_return: %d\nog_return: %d\n", ft_return, og_return);
 }
+*/
+/*
+Tests to be done:
+"'   %"
+"%"
+" %"
+" % "
+"%% % "
+"%.-i%.-i", i
+
+"%% %  wtest"
 */

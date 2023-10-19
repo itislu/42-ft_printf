@@ -27,6 +27,7 @@ int				ft_printf(const char *f_str, ...);
 unsigned int	ft_putnbr_base_fd(long n, const char *base, int fd);
 size_t			ft_putnchar_fd(char c, size_t n, int fd);
 size_t			ft_putnstr_fd(const char *s, size_t n, int fd);
+size_t			ft_putnstr_fd_dotzero(const char *s, size_t n, int fd);
 int				print_char(char c, t_format *format);
 int				print_nbr(long nbr, t_format *format);
 int				print_ptr(size_t ptr, t_format *format);
