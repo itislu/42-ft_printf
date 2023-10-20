@@ -22,6 +22,7 @@ SRC			=	ft_printf.c \
 				ft_putnstr_fd.c \
 				print_char.c \
 				print_nbr.c \
+				print_parsed.c \
 				print_ptr.c \
 				print_str.c
 

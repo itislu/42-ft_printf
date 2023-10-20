@@ -81,17 +81,17 @@ int	ito1(void)
 	ito2(&i);
 	return (i);
 }
-/*
+
 int	main(void)
 {
 	//void	*ptr = NULL;
 	int	result;
 
-	printf("|%0.00013|\n");
+	//printf("|%0.00013|\n");
 	//printf("|% .0s|\n", ptr);
 	//printf("|%- #0+20.16u|\n", 20);
-	result = printf("|%- 0-0#0|\n");
-	printf("|%- #0w%%w|\n");
+	//result = printf("|%- 0-0#0|\n");
+	//printf("|%- #0w%%w|\n");
 	//printf("|%.10%|\n");
 	//printf("|%-10.1s|\n", "sring");
 	//const char *const_str = "const_string";
@@ -109,6 +109,8 @@ int	main(void)
 	//int	result;
 	//result = printf("'   %");
 	//printf("|");
+
+	result = printf("%..i", 5);
+
 	printf("\nreturned: %i\n", result);
 }
-*/
