@@ -10,12 +10,11 @@
 # ifndef FD
 #  define FD 1
 # endif
-# ifndef NULL_PRINTOUT_P
-#  define NULL_PRINTOUT_P "(nil)"
-# endif
-# ifndef NULL_PRINTOUT_S
-#  define NULL_PRINTOUT_S "(null)"
-# endif
+# define NULL_PRINTOUT_PTR "(nil)"
+# define NULL_PRINTOUT_STR "(null)"
+# define FROM_NEGATIVE_WIDTH 2
+# define NOT_SET -1
+# define NEGATIVE_PRECISION -2
 
 typedef struct s_struct
 {
@@ -31,15 +30,15 @@ typedef struct s_struct
 }	t_struct;
 
 // functions here
-int				ft_printf(const char *f_str, ...);
+int				ft_printf(const char *format, ...);
 unsigned int	ft_putnbr_base_fd(long n, const char *base, int fd);
 size_t			ft_putnchar_fd(char c, size_t n, int fd);
 size_t			ft_putnstr_fd(const char *s, size_t n, int fd);
-int				print_char(char c, t_struct *format);
-int				print_nbr(long nbr, t_struct *format);
-size_t			print_parsed(const char *f_str, size_t parsed, t_struct *format);
-int				print_ptr(size_t ptr, t_struct *format);
-int				print_str(const char *str, t_struct *format);
-size_t			set_format(const char *f_str, int *i, t_struct *format, va_list *ap);
+int				print_char(char c, t_struct *f);
+int				print_nbr(long nbr, t_struct *f);
+size_t			print_parsed(const char *format, size_t parsed, t_struct *f);
+int				print_ptr(size_t ptr, t_struct *f);
+int				print_str(const char *str, t_struct *f);
+size_t			set_format(const char *format, int *i, t_struct *f, va_list *ap);
 
 #endif

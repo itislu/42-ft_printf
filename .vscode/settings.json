@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"functional": "c",
-		"ft_printf.h": "c"
+		"ft_printf.h": "c",
+		"random": "c"
 	}
 }

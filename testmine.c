@@ -29,17 +29,17 @@ void f(char *format, ...)
 int	test_ft_printf(void)
 {
 
-	 int a = 4;
-	 int *p = &a;
-	 return (ft_printf("%.x", 0));
+	int		i = -10;
+	char	*a = 1;
+	return (ft_printf("%+028.*pw",-16, a));
 }
 
 int	test_printf(void)
 {
 
-	int a = 4;
-	 int *p = &a;
-	 return (printf("%.x", 0));
+	int		i = -10;
+	char	*a = 1;
+	return (printf("%+028.*pw",-16, a));
 }
 
 int	main(void)
@@ -94,6 +94,9 @@ int	main(void)
 
 /*
 
+"%0*.*iw", 10, -5, -10
+"%+ 0#*.*w",-40, -10
+"%0*+iw", -8		// The minus from neg. width behaves slightly different
 "%s"
 "%25.33p", p
 

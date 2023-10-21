@@ -12,78 +12,80 @@
 
 #include "ft_printf.h"
 
-static size_t	print_flags(const char *f_str, size_t *i, t_struct *format);
-static size_t	print_width(const char *f_str, size_t *i, t_struct *format);
-static size_t	print_precision(const char *f_str, size_t *i, t_struct *format);
+static size_t	print_flags(const char *format, size_t *i, t_struct *f);
+static size_t	print_width(const char *format, size_t *i, t_struct *f);
+static size_t	print_precision(const char *format, size_t *i, t_struct *f);
 
-size_t	print_parsed(const char *f_str, size_t parsed, t_struct *format)
+size_t	print_parsed(const char *format, size_t parsed, t_struct *f)
 {
 	size_t	i;
 	size_t	printed;
 
 	i = 0;
 	printed = 0;
-	if (f_str[0] == '%')
+	if (format[0] == '%')
 	{
 		printed += ft_putnchar_fd('%', ++i, FD);
-		printed += print_flags(f_str, &i, format);
-		printed += print_width(f_str, &i, format);
-		printed += print_precision(f_str, &i, format);
+		printed += print_flags(format, &i, f);
+		printed += print_width(format, &i, f);
+		printed += print_precision(format, &i, f);
 	}
-	printed += ft_putnstr_fd(&f_str[i], parsed - i, FD);
+	printed += ft_putnstr_fd(&format[i], parsed - i, FD);
 	return (printed);
 }
 
-static size_t	print_flags(const char *f_str, size_t *i, t_struct *format)
+static size_t	print_flags(const char *format, size_t *i, t_struct *f)
 {
 	size_t	printed;
 
 	printed = 0;
-	if (format->hash)
+	if (f->hash)
 		printed += ft_putnchar_fd('#', 1, FD);
-	if (format->plus)
+	if (f->plus)
 		printed += ft_putnchar_fd('+', 1, FD);
-	if (format->space && !format->plus)
+	if (f->space && !f->plus)
 		printed += ft_putnchar_fd(' ', 1, FD);
-	if (format->minus)
+	if (f->minus)
 		printed += ft_putnchar_fd('-', 1, FD);
-	if (format->zero && !format->minus)
+	if (f->zero && (!f->minus || f->minus == FROM_NEGATIVE_WIDTH))
 		printed += ft_putnchar_fd('0', 1, FD);
-	while (f_str[*i] && ft_strchr("#+- 0", f_str[*i])) // header file
+	while (format[*i] && ft_strchr("#+- 0", format[*i])) // header file
 		(*i)++;
 	return (printed);
 }
 
-static size_t	print_width(const char *f_str, size_t *i, t_struct *format)
+static size_t	print_width(const char *format, size_t *i, t_struct *f)
 {
 	size_t	printed;
 
 	printed = 0;
-	if (format->width)
-		printed += ft_putnbr_base_fd(format->width, "0123456789", FD);	//macro
-	if (f_str[*i] == '*')
+	if (f->width)
+		printed += ft_putnbr_base_fd(f->width, "0123456789", FD);	//macro
+	if (format[*i] == '*')
 		(*i)++;
 	else
-		while (ft_isdigit(f_str[*i]))
+		while (ft_isdigit(format[*i]))
 			(*i)++;
 	return ((size_t) printed);
 }
 
-static size_t	print_precision(const char *f_str, size_t *i, t_struct *format)
+static size_t	print_precision(const char *format, size_t *i, t_struct *f)
 {
 	size_t	printed;
 
 	printed = 0;
-	if (format->precision != -1)
+	if (f->precision >= 0)
 	{
 		printed += ft_putnchar_fd('.', 1, FD);
 		(*i)++;
-		printed += ft_putnbr_base_fd(format->precision, "0123456789", FD);	//macro
-		if (f_str[*i] == '*')
+		printed += ft_putnbr_base_fd(f->precision, "0123456789", FD);	//macro
+		if (format[*i] == '*')
 			(*i)++;
 		else
-			while (ft_isdigit(f_str[*i]))
+			while (ft_isdigit(format[*i]))
 				(*i)++;
 	}
+	else if (f->precision == NEGATIVE_PRECISION)
+		(*i) += 2;
 	return ((size_t) printed);
 }

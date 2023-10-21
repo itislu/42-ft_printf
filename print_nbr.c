@@ -1,49 +1,49 @@
 #include "ft_printf.h"
 
-static int	nbrlen(long nbr, t_struct *format);
-static int 	totalnbrlen(long nbr, int len_nbr, t_struct *format);
-static int	print_prefix(long nbr, t_struct *format);
-static int	print_nbr_in_correct_base(long nbr, t_struct *format);
+static int	nbrlen(long nbr, t_struct *f);
+static int 	totalnbrlen(long nbr, int len_nbr, t_struct *f);
+static int	print_prefix(long nbr, t_struct *f);
+static int	print_nbr_in_correct_base(long nbr, t_struct *f);
 
-int	print_nbr(long nbr, t_struct *format)
+int	print_nbr(long nbr, t_struct *f)
 {
 	char	padding;
 	int		len_nbr;
 	int		len_totalnbr;
 	int		printed;
 
-	if (format->zero && !format->minus && format->precision == -1)
+	if (f->zero && !f->minus && f->precision < 0)
 		padding = '0';
 	else
 		padding = ' ';
-	len_nbr = nbrlen(nbr, format);
-	len_totalnbr = totalnbrlen(nbr, len_nbr, format);
+	len_nbr = nbrlen(nbr, f);
+	len_totalnbr = totalnbrlen(nbr, len_nbr, f);
 	printed = 0;
 	if (padding == '0')
-		printed += print_prefix(nbr, format);
-	if (!format->minus && len_totalnbr < format->width)
-		printed += ft_putnchar_fd(padding, format->width - len_totalnbr, FD);
-	if (padding == ' ' && format->specifier != 'u' && !(nbr == 0 && format->precision == 0))
-		printed += print_prefix(nbr, format);
-	if (format->precision > len_nbr)
-		printed += ft_putnchar_fd('0', format->precision - len_nbr, FD);
-	if (!(nbr == 0 && format->precision == 0))
-		printed += print_nbr_in_correct_base(nbr, format);
-	if (format->minus && len_totalnbr < format->width)
-		printed += ft_putnchar_fd(' ', format->width - len_totalnbr, FD);
+		printed += print_prefix(nbr, f);
+	if (!f->minus && len_totalnbr < f->width)
+		printed += ft_putnchar_fd(padding, f->width - len_totalnbr, FD);
+	if (padding == ' ' && f->specifier != 'u' && !(nbr == 0 && f->precision == 0))
+		printed += print_prefix(nbr, f);
+	if (f->precision > len_nbr)
+		printed += ft_putnchar_fd('0', f->precision - len_nbr, FD);
+	if (!(nbr == 0 && f->precision == 0))
+		printed += print_nbr_in_correct_base(nbr, f);
+	if (f->minus && len_totalnbr < f->width)
+		printed += ft_putnchar_fd(' ', f->width - len_totalnbr, FD);
 	return (printed);
 }
 
-static int	nbrlen(long nbr, t_struct *format)
+static int	nbrlen(long nbr, t_struct *f)
 {
 	int	base;
 	int	len_nbr;
 
-	if (ft_strchr("xX", format->specifier))
+	if (ft_strchr("xX", f->specifier))
 		base = 16;
 	else
 		base = 10;
-	if (nbr == 0 && format->precision != 0)
+	if (nbr == 0 && f->precision != 0)
 		len_nbr = 1;
 	else
 	{
@@ -57,35 +57,35 @@ static int	nbrlen(long nbr, t_struct *format)
 	return (len_nbr);
 }
 
-static int 	totalnbrlen(long nbr, int len_nbr, t_struct *format)
+static int 	totalnbrlen(long nbr, int len_nbr, t_struct *f)
 {
 	int	len_totalnbr;
 
 	len_totalnbr = len_nbr;
-	if (len_nbr < format->precision)
-		len_totalnbr = format->precision;
-	if (!ft_strchr("uxX", format->specifier))
-		if (!(nbr == 0 && format->precision == 0))
-			if (nbr < 0 || format->plus || format->space)
+	if (len_nbr < f->precision)
+		len_totalnbr = f->precision;
+	if (!ft_strchr("uxX", f->specifier))
+		if (!(nbr == 0 && f->precision == 0))
+			if (nbr < 0 || f->plus || f->space)
 				len_totalnbr++;
-	if (ft_strchr("xX", format->specifier))
-		if (format->hash)
+	if (ft_strchr("xX", f->specifier))
+		if (f->hash)
 			len_totalnbr += 2;
 	return (len_totalnbr);
 }
 
-static int	print_prefix(long nbr, t_struct *format)
+static int	print_prefix(long nbr, t_struct *f)
 {
 	int	printed;
 
 	printed = 0;
-	if (ft_strchr("xX", format->specifier) && nbr != 0)
+	if (ft_strchr("xX", f->specifier) && nbr != 0)
 	{
-		if (format->hash)
+		if (f->hash)
 		{
-			if (format->specifier == 'x')
+			if (f->specifier == 'x')
 				printed += ft_putnstr_fd("0x", 2, FD);
-			else if (format->specifier == 'X')
+			else if (f->specifier == 'X')
 				printed += ft_putnstr_fd("0X", 2, FD);
 		}
 	}
@@ -93,22 +93,22 @@ static int	print_prefix(long nbr, t_struct *format)
 	{
 		if (nbr < 0)
 			printed += ft_putnchar_fd('-', 1, FD);
-		else if (format->plus)
+		else if (f->plus)
 			printed += ft_putnchar_fd('+', 1, FD);
-		else if (format->space)
+		else if (f->space)
 			printed += ft_putnchar_fd(' ', 1, FD);
 	}
 	return (printed);
 }
 
-static int	print_nbr_in_correct_base(long nbr, t_struct *format)
+static int	print_nbr_in_correct_base(long nbr, t_struct *f)
 {
 	int	printed;
 
 	printed = 0;
-	if (format->specifier == 'x')
+	if (f->specifier == 'x')
 		printed += ft_putnbr_base_fd(nbr, "0123456789abcdef", FD); //header file
-	else if (format->specifier == 'X')
+	else if (f->specifier == 'X')
 		printed += ft_putnbr_base_fd(nbr, "0123456789ABCDEF", FD);
 	else if (nbr < 0)
 		printed += ft_putnbr_base_fd(nbr * -1, "0123456789", FD);

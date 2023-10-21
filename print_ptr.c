@@ -3,27 +3,27 @@
 static int	ptrlen(size_t ptr);
 static int	puthex_fd(size_t nbr);
 
-int	print_ptr(size_t ptr, t_struct *format)
+int	print_ptr(size_t ptr, t_struct *f)
 {
 	int	len;
 	int	printed;
 
 	if (!ptr)
-		len = ft_strlen(NULL_PRINTOUT_P);
+		len = ft_strlen(NULL_PRINTOUT_PTR);
 	else
 		len = ptrlen(ptr) + 2;
 	printed = 0;
-	if (!format->minus && len < format->width)
-		printed += ft_putnchar_fd(' ', format->width - len, FD);
+	if (!f->minus && len < f->width)
+		printed += ft_putnchar_fd(' ', f->width - len, FD);
 	if (!ptr)
-		printed += ft_putnstr_fd(NULL_PRINTOUT_P, len, FD);
+		printed += ft_putnstr_fd(NULL_PRINTOUT_PTR, len, FD);
 	else
 	{
 		printed += ft_putnstr_fd("0x", 2, FD);
 		printed += puthex_fd(ptr);
 	}
-	if (format->minus && len < format->width)
-		printed += ft_putnchar_fd(' ', format->width - len, FD);
+	if (f->minus && len < f->width)
+		printed += ft_putnchar_fd(' ', f->width - len, FD);
 	return (printed);
 }
 
@@ -56,13 +56,13 @@ static int	puthex_fd(size_t nbr)
 }
 
 /*
-	format->minus = 0;
-	format->width = 0;
+	f->minus = 0;
+	f->width = 0;
 
 // Has no effect
-	format->zero = 0;	// would place the zeros between the 0x and the address, but that's undefined behaviour
-	format->plus = 0;	// would always place a + before 0x
-	format->space = 0;
-	format->hash = 0;
-	format->precision = -1;	// pads with zeros between 0x and the address, but it's undefined behaviour
+	f->zero = 0;	// would place the zeros between the 0x and the address, but that's undefined behaviour
+	f->plus = 0;	// would always place a + before 0x
+	f->space = 0;
+	f->hash = 0;
+	f->precision = -1;	// pads with zeros between 0x and the address, but it's undefined behaviour
 */
