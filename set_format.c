@@ -1,18 +1,18 @@
 #include "ft_printf.h"
 
 static void	set_flags(const char *f_str, int *i, t_struct *format);
-static void	set_width(const char *f_str, int *i, t_struct *format);
-static void	set_precision(const char *f_str, int *i, t_struct *format);
+static void	set_width(const char *f_str, int *i, t_struct *format, va_list *ap);
+static void	set_precision(const char *f_str, int *i, t_struct *format, va_list *ap);
 static void	set_specifier(const char *f_str, int *i, t_struct *format);
 
-size_t	set_format(const char *f_str, int *i, t_struct *format)
+size_t	set_format(const char *f_str, int *i, t_struct *format, va_list *ap)
 {
 	int	i_original;
 
 	i_original = *i;
 	set_flags(f_str, i, format);
-	set_width(f_str, i, format);
-	set_precision(f_str, i, format);
+	set_width(f_str, i, format, ap);
+	set_precision(f_str, i, format, ap);
 	set_specifier(f_str, i, format);
 	return (*i - i_original);
 }
@@ -37,21 +37,29 @@ static void	set_flags(const char *f_str, int *i, t_struct *format)
 	}
 }
 
-static void	set_width(const char *f_str, int *i, t_struct *format)
+static void	set_width(const char *f_str, int *i, t_struct *format, va_list *ap)
 {
 	int	nbr;
 
 	nbr = 0;
-	while (ft_isdigit(f_str[*i]))
+	if (f_str[*i] == '*')
 	{
-		nbr = nbr * 10 + (f_str[*i] - '0');
+		nbr = va_arg(*ap, int);
 		(*i)++;
+	}
+	else
+	{
+		while (ft_isdigit(f_str[*i]))
+		{
+			nbr = nbr * 10 + (f_str[*i] - '0');
+			(*i)++;
+		}
 	}
 	format->width = nbr;
 	return ;
 }
 
-static void	set_precision(const char *f_str, int *i, t_struct *format)
+static void	set_precision(const char *f_str, int *i, t_struct *format, va_list *ap)
 {
 	int	nbr;
 
@@ -77,7 +85,7 @@ static void	set_specifier(const char *f_str, int *i, t_struct *format)
 	char	*specifier;
 
 	specifier = ft_strchr("cspdiuxX%", f_str[*i]);
-	if (specifier)
+	if (specifier && *specifier)
 	{
 		format->specifier = *specifier;
 		(*i)++;

@@ -40,5 +40,6 @@ int				print_nbr(long nbr, t_struct *format);
 size_t			print_parsed(const char *s, size_t parsed, t_struct *format);
 int				print_ptr(size_t ptr, t_struct *format);
 int				print_str(const char *str, t_struct *format);
+size_t			set_format(const char *f_str, int *i, t_struct *format, va_list *ap);
 
 #endif

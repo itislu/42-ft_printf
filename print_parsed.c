@@ -48,7 +48,7 @@ static size_t	print_flags(const char *s, size_t *i, t_struct *format)
 		printed += ft_putnchar_fd('-', 1, FD);
 	if (format->zero && !format->minus)
 		printed += ft_putnchar_fd('0', 1, FD);
-	while (ft_strchr("#+- 0", s[*i])) // header file
+	while (s[*i] && ft_strchr("#+- 0", s[*i])) // header file
 		(*i)++;
 	return (printed);
 }

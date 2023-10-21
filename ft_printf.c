@@ -2,7 +2,6 @@
 
 static void	reset_format(t_struct *format);
 static int	parseandprint(const char *f_str, int *i, t_struct *format, va_list *ap);
-static size_t	set_format(const char *f_str, int *i, t_struct *format);
 static int		print_argument(t_struct *format, va_list *ap);
 
 int	ft_printf(const char *f_str, ...)
@@ -56,7 +55,7 @@ static int	parseandprint(const char *f_str, int *i, t_struct *format, va_list *a
 	parsed = 1;
 	if (f_str[(*i)++] == '%')
 	{
-		parsed += set_format(f_str, i, format);
+		parsed += set_format(f_str, i, format, ap);
 		if (f_str[*i] == '\0' && !format->specifier && !format->unresolved)
 			return (-1);
 		if (format->specifier)

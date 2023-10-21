@@ -28,12 +28,12 @@ void f(char *format, ...)
 
 int	test_ft_printf(void)
 {
-	return (ft_printf("%0-.w11.1.%.00003...i"));
+	return (ft_printf("%"));
 }
 
 int	test_printf(void)
 {
-	return (printf("%0-.w11.1.%.00003...i", 5, 5));
+	return (printf("%"));
 }
 
 int	main(void)
