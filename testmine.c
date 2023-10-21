@@ -28,12 +28,18 @@ void f(char *format, ...)
 
 int	test_ft_printf(void)
 {
-	return (ft_printf("%"));
+
+	 int a = 4;
+	 int *p = &a;
+	 return (ft_printf("%.x", 0));
 }
 
 int	test_printf(void)
 {
-	return (printf("%"));
+
+	int a = 4;
+	 int *p = &a;
+	 return (printf("%.x", 0));
 }
 
 int	main(void)
@@ -87,6 +93,15 @@ int	main(void)
 }
 
 /*
+
+"%s"
+"%25.33p", p
+
+Asterisk:
+"%*.3w", 5
+"%.*.3w", 5
+
+
 Not multiple flags printed:
 "w%%  % % %% w%  w  w%"
 "%  +   .-.%+   "

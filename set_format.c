@@ -67,10 +67,18 @@ static void	set_precision(const char *f_str, int *i, t_struct *format, va_list *
 	{
 		nbr = 0;
 		(*i)++;
-		while (ft_isdigit(f_str[*i]))
+		if (f_str[*i] == '*')
 		{
-			nbr = nbr * 10 + (f_str[*i] - '0');
+			nbr = va_arg(*ap, int);
 			(*i)++;
+		}
+		else
+		{
+			while (ft_isdigit(f_str[*i]))
+			{
+				nbr = nbr * 10 + (f_str[*i] - '0');
+				(*i)++;
+			}
 		}
 		format->precision = nbr;
 	}
