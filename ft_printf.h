@@ -17,7 +17,7 @@
 #  define NULL_PRINTOUT_S "(null)"
 # endif
 
-typedef struct s_format
+typedef struct s_struct
 {
 	int		hash;
 	int		plus;
@@ -28,17 +28,17 @@ typedef struct s_format
 	int		precision;
 	char	specifier;
 	int		unresolved;
-}	t_format;
+}	t_struct;
 
 // functions here
 int				ft_printf(const char *f_str, ...);
 unsigned int	ft_putnbr_base_fd(long n, const char *base, int fd);
 size_t			ft_putnchar_fd(char c, size_t n, int fd);
 size_t			ft_putnstr_fd(const char *s, size_t n, int fd);
-int				print_char(char c, t_format *format);
-int				print_nbr(long nbr, t_format *format);
-size_t			print_parsed(const char *s, size_t parsed, t_format *format);
-int				print_ptr(size_t ptr, t_format *format);
-int				print_str(const char *str, t_format *format);
+int				print_char(char c, t_struct *format);
+int				print_nbr(long nbr, t_struct *format);
+size_t			print_parsed(const char *s, size_t parsed, t_struct *format);
+int				print_ptr(size_t ptr, t_struct *format);
+int				print_str(const char *str, t_struct *format);
 
 #endif

@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"functional": "c"
+		"functional": "c",
+		"ft_printf.h": "c"
 	}
 }

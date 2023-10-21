@@ -11,10 +11,10 @@
 # **************************************************************************** #
 
 NAME		=	libftprintf.a
-I			=	./ ./libft/
-D			=	dep/
-O			=	obj/
-L			=	./libft/
+I			=	./ libft/
+D			=	build/dep/
+O			=	build/obj/
+L			=	libft/
 
 SRC			=	ft_printf.c \
 				ft_putnbr_base_fd.c \
@@ -24,7 +24,8 @@ SRC			=	ft_printf.c \
 				print_nbr.c \
 				print_parsed.c \
 				print_ptr.c \
-				print_str.c
+				print_str.c \
+				set_format.c
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror $(foreach X,$I,-I$X)
@@ -64,6 +65,7 @@ endif
 				rm -rf $O
 
 clean:			cleandep cleanobj
+				rm -rf build/
 ifeq ($(filter $(MAKECMDGOALS),fclean re),)
 				make -C $L clean
 endif

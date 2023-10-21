@@ -12,10 +12,10 @@
 
 #include "ft_printf.h"
 
-static size_t	print_precision(const char *s, size_t *i, t_format *format);
-static size_t	print_flags(const char *s, size_t *i, t_format *format);
+static size_t	print_precision(const char *s, size_t *i, t_struct *format);
+static size_t	print_flags(const char *s, size_t *i, t_struct *format);
 
-size_t	print_parsed(const char *s, size_t parsed, t_format *format)
+size_t	print_parsed(const char *s, size_t parsed, t_struct *format)
 {
 	size_t	i;
 	size_t	printed;
@@ -33,7 +33,7 @@ size_t	print_parsed(const char *s, size_t parsed, t_format *format)
 	return (printed);
 }
 
-static size_t	print_flags(const char *s, size_t *i, t_format *format)
+static size_t	print_flags(const char *s, size_t *i, t_struct *format)
 {
 	size_t	printed;
 
@@ -48,13 +48,12 @@ static size_t	print_flags(const char *s, size_t *i, t_format *format)
 		printed += ft_putnchar_fd('-', 1, FD);
 	if (format->zero && !format->minus)
 		printed += ft_putnchar_fd('0', 1, FD);
-	// strchr()
-	while (s[*i] == '#' || s[*i] == '+' || s[*i] == '-' || s[*i] == ' ' || s[*i] == '0')
+	while (ft_strchr("#+- 0", s[*i])) // header file
 		(*i)++;
 	return (printed);
 }
 
-static size_t	print_precision(const char *s, size_t *i, t_format *format)
+static size_t	print_precision(const char *s, size_t *i, t_struct *format)
 {
 	size_t	width;
 	size_t	printed;

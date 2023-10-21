@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-int	print_char(char c, t_format *format)
+int	print_char(char c, t_struct *format)
 {
 	int	printed;
 

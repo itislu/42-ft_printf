@@ -1,8 +1,8 @@
 #include "ft_printf.h"
 
-static int	print(const char *str, int len, t_format *format);
+static int	print(const char *str, int len, t_struct *format);
 
-int	print_str(const char *str, t_format *format)
+int	print_str(const char *str, t_struct *format)
 {
 	int	len;
 	int	printed;
@@ -25,7 +25,7 @@ int	print_str(const char *str, t_format *format)
 	return (printed);
 }
 
-static int	print(const char *str, int len, t_format *format)
+static int	print(const char *str, int len, t_struct *format)
 {
 	int	printed;
 

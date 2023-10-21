@@ -57,10 +57,3 @@ static void	skip_set(size_t *pos, size_t lim, char const *s1, char const *set)
 	}
 	return ;
 }
-/*
-#include <stdio.h>
-int	main(void)
-{
-	printf("%sI\n", ft_strtrim("ccc", "c")); // cSTc
-}
-*/

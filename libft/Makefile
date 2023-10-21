@@ -12,8 +12,8 @@
 
 NAME		=	libft.a
 I			=	./
-D			=	dep/
-O			=	obj/
+D			=	build/dep/
+O			=	build/obj/
 
 SRC			=	ft_atoi.c \
 				ft_bzero.c \
@@ -84,13 +84,14 @@ $(DEP): $D%.d:	%.c | $D
 $O $D:
 				@mkdir -p $@
 
-cleandep:				
+cleandep:
 				rm -rf $D
 
-cleanobj:				
+cleanobj:
 				rm -rf $O
 
 clean:			cleandep cleanobj
+				rm -rf build/
 
 fclean:			clean
 				rm -f $(NAME)

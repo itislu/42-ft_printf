@@ -3,7 +3,7 @@
 static int	ptrlen(size_t ptr);
 static int	puthex_fd(size_t nbr);
 
-int	print_ptr(size_t ptr, t_format *format)
+int	print_ptr(size_t ptr, t_struct *format)
 {
 	int	len;
 	int	printed;
