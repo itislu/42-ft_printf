@@ -30,10 +30,10 @@ static int	print(const char *str, int len, t_struct *f)
 	int	printed;
 
 	printed = 0;
-	if (!f->minus && len < f->width)
+	if (!f->minus && f->width > len)
 		printed += ft_putnchar_fd(' ', f->width - len, FD);
 	printed += ft_putnstr_fd((char *) str, len, FD);
-	if (f->minus && len < f->width)
+	if (f->minus && f->width > len)
 		printed += ft_putnchar_fd(' ', f->width - len, FD);
 	return (printed);
 }

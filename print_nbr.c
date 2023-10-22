@@ -1,4 +1,5 @@
 #include "ft_printf.h"
+#include "libft/libft.h"
 
 static int	nbrlen(long nbr, t_struct *f);
 static int 	totalnbrlen(long nbr, int len_nbr, t_struct *f);
@@ -19,9 +20,9 @@ int	print_nbr(long nbr, t_struct *f)
 	len_nbr = nbrlen(nbr, f);
 	len_totalnbr = totalnbrlen(nbr, len_nbr, f);
 	printed = 0;
-	if (padding == '0')
+	if (padding == '0' && f->specifier != 'u')
 		printed += print_prefix(nbr, f);
-	if (!f->minus && len_totalnbr < f->width)
+	if (!f->minus && f->width > len_totalnbr)
 		printed += ft_putnchar_fd(padding, f->width - len_totalnbr, FD);
 	if (padding == ' ' && f->specifier != 'u' && !(nbr == 0 && f->precision == 0))
 		printed += print_prefix(nbr, f);
@@ -29,7 +30,7 @@ int	print_nbr(long nbr, t_struct *f)
 		printed += ft_putnchar_fd('0', f->precision - len_nbr, FD);
 	if (!(nbr == 0 && f->precision == 0))
 		printed += print_nbr_in_correct_base(nbr, f);
-	if (f->minus && len_totalnbr < f->width)
+	if (f->minus && f->width > len_totalnbr)
 		printed += ft_putnchar_fd(' ', f->width - len_totalnbr, FD);
 	return (printed);
 }
@@ -69,7 +70,7 @@ static int 	totalnbrlen(long nbr, int len_nbr, t_struct *f)
 			if (nbr < 0 || f->plus || f->space)
 				len_totalnbr++;
 	if (ft_strchr("xX", f->specifier))
-		if (f->hash)
+		if (f->hash && nbr != 0)
 			len_totalnbr += ft_strlen("0x");
 	return (len_totalnbr);
 }
@@ -79,9 +80,9 @@ static int	print_prefix(long nbr, t_struct *f)
 	int	printed;
 
 	printed = 0;
-	if (ft_strchr("xX", f->specifier) && nbr != 0)
+	if (ft_strchr("xX", f->specifier))
 	{
-		if (f->hash)
+		if (f->hash && nbr != 0)
 		{
 			if (f->specifier == 'x')
 				printed += ft_putnstr_fd("0x", 2, FD);

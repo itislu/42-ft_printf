@@ -29,17 +29,17 @@ void f(char *format, ...)
 int	test_ft_printf(void)
 {
 
-	int		i = -10;
-	char	*a = &i;
-	return (ft_printf("%0pw",120, 100, a));
+	int		i = 10;
+	char	*a = 0;
+	return (ft_printf("% -+0#*.*pw", 19, 50, a));
 }
 
 int	test_printf(void)
 {
 
-	int		i = -10;
-	char	*a = &i;
-	return (printf("%0pw",120, 100, a));
+	int		i = 10;
+	char	*a = 0;
+	return (printf("% +-0#*.*pw", 19, 50, a));
 }
 
 int	main(void)
