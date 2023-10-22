@@ -6,7 +6,7 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/25 12:48:32 by ldulling          #+#    #+#              #
-#    Updated: 2023/10/22 21:45:24 by ldulling         ###   ########.fr        #
+#    Updated: 2023/10/22 21:55:27 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ ARFLAGS		=	rcs
 DEP			=	$(SRC:%.c=$D%.d)
 OBJ			=	$(SRC:%.c=$O%.o)
 
-.PHONY:			all bonus cleandep cleanobj clean fclean re norm
+.PHONY:			all bonus cleandep cleanobj clean fclean re norminette
 
 all:			$(NAME)
 
@@ -78,7 +78,7 @@ fclean:			clean
 
 re:				fclean all
 
-norm:
+norminette:
 				norminette -R CheckForbiddenSourceHeader
 				norminette -R CheckDefine $I*.h
 
