@@ -6,12 +6,12 @@
 #    By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/25 12:48:32 by ldulling          #+#    #+#              #
-#    Updated: 2023/10/22 19:26:39 by ldulling         ###   ########.fr        #
+#    Updated: 2023/10/22 21:45:24 by ldulling         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	libftprintf.a
-I			=	./ libft/
+I			=	./
 D			=	build/dep/
 O			=	build/obj/
 L			=	libft/
@@ -34,7 +34,7 @@ ARFLAGS		=	rcs
 DEP			=	$(SRC:%.c=$D%.d)
 OBJ			=	$(SRC:%.c=$O%.o)
 
-.PHONY:			all cleandep cleanobj clean fclean re
+.PHONY:			all bonus cleandep cleanobj clean fclean re norm
 
 all:			$(NAME)
 
@@ -42,6 +42,8 @@ $(NAME):		$(OBJ)
 				make -C $L
 				cp $Llibft.a ./$@
 				ar $(ARFLAGS) $(NAME) $^
+
+bonus:			all
 
 $(OBJ): $O%.o:	%.c | $O
 				$(CC) $(CFLAGS) -c $< -o $@
@@ -75,6 +77,10 @@ fclean:			clean
 				rm -f $(NAME)
 
 re:				fclean all
+
+norm:
+				norminette -R CheckForbiddenSourceHeader
+				norminette -R CheckDefine $I*.h
 
 ifeq ($(filter $(MAKECMDGOALS),cleandep cleanobj clean fclean),)
 -include 		$(DEP)
