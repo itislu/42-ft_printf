@@ -2,7 +2,8 @@
 
 static int	print_nil(t_struct *f);
 static int	ptrlen(size_t ptr);
-static int	totalptrlen(size_t ptr, int len_ptr, t_struct *f);
+static int	totalptrlen(int len_ptr, t_struct *f);
+static int	puthex(size_t ptr);
 
 int	print_ptr(size_t ptr, t_struct *f)
 {
@@ -15,8 +16,8 @@ int	print_ptr(size_t ptr, t_struct *f)
 		printed += print_nil(f);
 	else
 	{
-		len_ptr = ptrlen(ptr);	// now is 2 smaller
-		len_totalptr = totalptrlen(ptr, len_ptr, f);
+		len_ptr = ptrlen(ptr);
+		len_totalptr = totalptrlen(len_ptr, f);
 		if (!f->minus && len_totalptr < f->width)
 			printed += ft_putnchar_fd(' ', f->width - len_totalptr, FD);
 		if (f->plus)
@@ -26,7 +27,7 @@ int	print_ptr(size_t ptr, t_struct *f)
 		printed += ft_putnstr_fd("0x", 2, FD);
 		if (f->precision > len_ptr)
 			printed += ft_putnchar_fd('0', f->precision - len_ptr, FD);
-		printed += ft_putnbr_base_fd(ptr, "0123456789abcdef", FD);
+		printed += puthex(ptr);
 		if (f->minus && len_totalptr < f->width)
 			printed += ft_putnchar_fd(' ', f->width - len_totalptr, FD);
 	}
@@ -61,7 +62,7 @@ static int	ptrlen(size_t ptr)
 	return (len_ptr);
 }
 
-static int	totalptrlen(size_t ptr, int len_ptr, t_struct *f)
+static int	totalptrlen(int len_ptr, t_struct *f)
 {
 	int	len_totalptr;
 
@@ -74,14 +75,17 @@ static int	totalptrlen(size_t ptr, int len_ptr, t_struct *f)
 	return (len_totalptr);
 }
 
-/*
-	f->minus = 0;
-	f->width = 0;
+static int	puthex(size_t ptr)
+{
+	int	printed;
 
-// Has no effect
-	f->zero = 0;	// would place the zeros between the 0x and the address, but that's undefined behaviour
-	f->plus = 0;	// would always place a + before 0x
-	f->space = 0;
-	f->hash = 0;
-	f->precision = -1;	// pads with zeros between 0x and the address, but it's undefined behaviour
-*/
+	printed = 0;
+	if (ptr >= 16)
+		printed += puthex(ptr / 16);
+	ptr %= 16;
+	if (ptr >= 10)
+		printed += ft_putnchar_fd(ptr - 10 + 'a', 1, FD);
+	else
+		printed += ft_putnchar_fd(ptr + '0', 1, FD);
+	return (printed);
+}
