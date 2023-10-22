@@ -10,10 +10,20 @@ size_t	set_format(const char *format, int *i, t_struct *f, va_list *ap)
 	int	i_original;
 
 	i_original = *i;
-	set_flags(format, i, f);
-	set_width(format, i, f, ap);
-	set_precision(format, i, f, ap);
-	set_specifier(format, i, f);
+	if (format[*i])
+	{
+		set_flags(format, i, f);
+		if (format[*i])
+		{
+			set_width(format, i, f, ap);
+			if (format[*i])
+			{
+				set_precision(format, i, f, ap);
+				if (format[*i])
+					set_specifier(format, i, f);
+			}
+		}
+	}
 	return (*i - i_original);
 }
 
@@ -95,24 +105,15 @@ static void	set_precision(const char *format, int *i, t_struct *f, va_list *ap)
 
 static void	set_specifier(const char *format, int *i, t_struct *f)
 {
-	// Potentially put into header file as global variable
-	//const char	*specifiers = "cspdiuxX%";
-	//int		j;
 	char	*specifier;
 
-	specifier = ft_strchr("cspdiuxX%", format[*i]);
-	if (specifier && *specifier)
+	specifier = ft_strchr("cspdiuxX%", format[*i]); // Potentially put into header file as global variable
+	if (specifier)
 	{
 		f->specifier = *specifier;
 		(*i)++;
 	}
-	// j = 0;
-	// while (specifiers[j] != format[*i] && specifiers[j])
-	// 	j++;
-	// f->specifier = specifiers[j];
-	// if (f->specifier)
-	// 	(*i)++;
-	else if (format[*i])
+	else
 		f->unresolved = 1;
 	return ;
 }
