@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/22 19:26:03 by ldulling          #+#    #+#             */
+/*   Updated: 2023/10/22 19:26:04 by ldulling         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static void	reset_format(t_struct *f);
@@ -49,7 +61,7 @@ static void	reset_format(t_struct *f)
 static int	parseandprint(const char *format, int *i, t_struct *f, va_list *ap)
 {
 	int	printed;
-	size_t	parsed;
+	int	parsed;
 
 	printed = 0;
 	parsed = 1;
@@ -73,17 +85,17 @@ static int	print_argument(t_struct *f, va_list *ap)
 
 	printed = 0;
 	if (f->specifier == 'c')
-		printed = print_char(va_arg(*ap, int), f);
+		printed = print_char((unsigned char) va_arg(*ap, int), f);
 	else if (f->specifier == 's')
 		printed = print_str(va_arg(*ap, const char *), f);
 	else if (f->specifier == 'p')
-		printed = print_ptr(va_arg(*ap, size_t), f); // size_t or void *
+		printed = print_ptr((size_t) va_arg(*ap, void *), f);
 	else if (f->specifier == 'd' || f->specifier == 'i')
 		printed = print_nbr((long) va_arg(*ap, int), f);
 	else if (f->specifier == 'u')
 		printed = print_nbr((long) va_arg(*ap, unsigned int), f);
 	else if (f->specifier == 'x' || f->specifier == 'X')
-		printed = print_nbr(va_arg(*ap, unsigned int), f);
+		printed = print_nbr((long) va_arg(*ap, unsigned int), f);
 	else if (f->specifier == '%')
 		printed = ft_putnchar_fd('%', 1, FD);
 	return (printed);

@@ -1,23 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_ptr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/22 19:27:12 by ldulling          #+#    #+#             */
+/*   Updated: 2023/10/22 19:40:03 by ldulling         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-static int	print_nil(t_struct *f);
+static int	print_nullptr(t_struct *f);
 static int	ptrlen(size_t ptr);
-static int	totalptrlen(int len_ptr, t_struct *f);
+static int	fullptrlen(int len_ptr, t_struct *f);
 static int	puthex(size_t ptr);
 
 int	print_ptr(size_t ptr, t_struct *f)
 {
-	int		len_ptr;
-	int		len_totalptr;
-	int		printed;
+	int	len_ptr;
+	int	len_full;
+	int	printed;
 
 	printed = 0;
 	if (!ptr)
-		return (printed += print_nil(f));
+		return (printed += print_nullptr(f));
 	len_ptr = ptrlen(ptr);	// If necessary, use pointers and just 1 function
-	len_totalptr = totalptrlen(len_ptr, f);
-	if (!f->minus && f->width > len_totalptr && !(f->zero && f->precision < 0))
-		printed += ft_putnchar_fd(' ', f->width - len_totalptr, FD);
+	len_full = fullptrlen(len_ptr, f);
+	if (!f->minus && f->width > len_full && !(f->zero && f->precision < 0))
+		printed += ft_putnchar_fd(' ', f->width - len_full, FD);
 	if (f->plus)
 		printed += ft_putnchar_fd('+', 1, FD);
 	else if (f->space)
@@ -25,15 +37,15 @@ int	print_ptr(size_t ptr, t_struct *f)
 	printed += ft_putnstr_fd("0x", 2, FD);
 	if (f->precision > len_ptr)
 		printed += ft_putnchar_fd('0', f->precision - len_ptr, FD);
-	else if (f->zero && !f->minus && f->precision < 0 && f->width > len_totalptr)
-		printed += ft_putnchar_fd('0', f->width - len_totalptr, FD);
+	else if (f->zero && !f->minus && f->precision < 0 && f->width > len_full)
+		printed += ft_putnchar_fd('0', f->width - len_full, FD);
 	printed += puthex(ptr);
-	if (f->minus && f->width > len_totalptr)
-		printed += ft_putnchar_fd(' ', f->width - len_totalptr, FD);
+	if (f->minus && f->width > len_full)
+		printed += ft_putnchar_fd(' ', f->width - len_full, FD);
 	return (printed);
 }
 
-static int	print_nil(t_struct *f)
+static int	print_nullptr(t_struct *f)
 {
 	int	len;
 	int	printed;
@@ -61,17 +73,17 @@ static int	ptrlen(size_t ptr)
 	return (len_ptr);
 }
 
-static int	totalptrlen(int len_ptr, t_struct *f)
+static int	fullptrlen(int len_ptr, t_struct *f)
 {
-	int	len_totalptr;
+	int	len_full;
 
-	len_totalptr = len_ptr;
-	if (len_totalptr < f->precision)
-		len_totalptr = f->precision;
+	len_full = len_ptr;
+	if (len_full < f->precision)
+		len_full = f->precision;
 	if (f->plus || f->space)
-		len_totalptr++;
-	len_totalptr += ft_strlen("0x");
-	return (len_totalptr);
+		len_full++;
+	len_full += ft_strlen("0x");
+	return (len_full);
 }
 
 static int	puthex(size_t ptr)

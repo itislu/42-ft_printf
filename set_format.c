@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_format.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/22 19:27:21 by ldulling          #+#    #+#             */
+/*   Updated: 2023/10/22 19:27:22 by ldulling         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static void	set_flags(const char *format, int *i, t_struct *f);
@@ -5,7 +17,7 @@ static void	set_width(const char *format, int *i, t_struct *f, va_list *ap);
 static void	set_precision(const char *format, int *i, t_struct *f, va_list *ap);
 static void	set_specifier(const char *format, int *i, t_struct *f);
 
-size_t	set_format(const char *format, int *i, t_struct *f, va_list *ap)
+int	set_format(const char *format, int *i, t_struct *f, va_list *ap)
 {
 	int	i_original;
 

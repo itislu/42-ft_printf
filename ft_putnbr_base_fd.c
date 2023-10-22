@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_base_fd.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/22 19:26:15 by ldulling          #+#    #+#             */
+/*   Updated: 2023/10/22 19:26:16 by ldulling         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-static size_t			baselen(const char *base);
-static int				check_for_duplicate(const char *base, size_t len);
-static unsigned int		print(unsigned long u_n, const char *base, size_t len, int fd);
+static size_t	baselen(const char *base);
+static int		check_for_duplicate(const char *base, size_t len);
+static int		print(unsigned long u_n, const char *base, size_t len, int fd);
 
-unsigned int	ft_putnbr_base_fd(long n, const char *base, int fd)
+int	ft_putnbr_base_fd(long n, const char *base, int fd)
 {
 	size_t			len;
-	unsigned int	written;
 	unsigned long	u_n;
+	int				written;
 
 	if (base == NULL || fd < 0)
 		return (0);
@@ -62,9 +74,9 @@ static int	check_for_duplicate(const char *base, size_t len)
 	return (0);
 }
 
-static unsigned int	print(unsigned long u_n, const char *base, size_t len, int fd)
+static int	print(unsigned long u_n, const char *base, size_t len, int fd)
 {
-	unsigned int	written;
+	int	written;
 
 	written = 0;
 	if (u_n >= len)

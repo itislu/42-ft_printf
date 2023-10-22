@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   print_parsed.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:12:14 by ldulling          #+#    #+#             */
-/*   Updated: 2023/09/25 13:13:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/22 19:27:07 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static size_t	print_flags(const char *format, size_t *i, t_struct *f);
-static size_t	print_width(const char *format, size_t *i, t_struct *f);
-static size_t	print_precision(const char *format, size_t *i, t_struct *f);
+static int	print_flags(const char *format, int *i, t_struct *f);
+static int	print_width(const char *format, int *i, t_struct *f);
+static int	print_precision(const char *format, int *i, t_struct *f);
 
-size_t	print_parsed(const char *format, size_t parsed, t_struct *f)
+int	print_parsed(const char *format, int parsed, t_struct *f)
 {
-	size_t	i;
-	size_t	printed;
+	int	i;
+	int	printed;
 
 	i = 0;
 	printed = 0;
@@ -34,9 +34,9 @@ size_t	print_parsed(const char *format, size_t parsed, t_struct *f)
 	return (printed);
 }
 
-static size_t	print_flags(const char *format, size_t *i, t_struct *f)
+static int	print_flags(const char *format, int *i, t_struct *f)
 {
-	size_t	printed;
+	int	printed;
 
 	printed = 0;
 	if (f->hash)
@@ -54,9 +54,9 @@ static size_t	print_flags(const char *format, size_t *i, t_struct *f)
 	return (printed);
 }
 
-static size_t	print_width(const char *format, size_t *i, t_struct *f)
+static int	print_width(const char *format, int *i, t_struct *f)
 {
-	size_t	printed;
+	int	printed;
 
 	printed = 0;
 	if (f->width)
@@ -66,12 +66,12 @@ static size_t	print_width(const char *format, size_t *i, t_struct *f)
 	else
 		while (ft_isdigit(format[*i]))
 			(*i)++;
-	return ((size_t) printed);
+	return (printed);
 }
 
-static size_t	print_precision(const char *format, size_t *i, t_struct *f)
+static int	print_precision(const char *format, int *i, t_struct *f)
 {
-	size_t	printed;
+	int	printed;
 
 	printed = 0;
 	if (f->precision >= 0)
@@ -87,5 +87,5 @@ static size_t	print_precision(const char *format, size_t *i, t_struct *f)
 	}
 	else if (f->precision == NEGATIVE_PRECISION)
 		(*i) += 2;
-	return ((size_t) printed);
+	return (printed);
 }
