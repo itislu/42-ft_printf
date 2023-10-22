@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:03 by ldulling          #+#    #+#             */
-/*   Updated: 2023/10/22 19:26:04 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:29:29 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	reset_format(t_struct *f)
 	f->minus = 0;
 	f->zero = 0;
 	f->width = 0;
-	f->precision = NOT_SET;
+	f->precision = NO_PRECISION_SET;
 	f->specifier = '\0';
 	return ;
 }
@@ -78,7 +78,6 @@ static int	parseandprint(const char *format, int *i, t_struct *f, va_list *ap)
 	return (printed);
 }
 
-/* Calls the appropriate function to print the type of current argument */
 static int	print_argument(t_struct *f, va_list *ap)
 {
 	int	printed;

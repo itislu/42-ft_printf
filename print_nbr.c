@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:55 by ldulling          #+#    #+#             */
-/*   Updated: 2023/10/22 19:44:01 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:23:43 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static int	print_nbr_in_correct_base(long nbr, t_struct *f)
 
 	printed = 0;
 	if (f->specifier == 'x')
-		printed += ft_putnbr_base_fd(nbr, "0123456789abcdef", FD); //header file
+		printed += ft_putnbr_base_fd(nbr, "0123456789abcdef", FD);
 	else if (f->specifier == 'X')
 		printed += ft_putnbr_base_fd(nbr, "0123456789ABCDEF", FD);
 	else if (nbr < 0)

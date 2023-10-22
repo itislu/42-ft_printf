@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:26:08 by ldulling          #+#    #+#             */
-/*   Updated: 2023/10/22 19:26:09 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:29:29 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@
 # ifndef FD
 #  define FD 1
 # endif
+# define SPECIFIERS "cspdiuxX%"
+# define FLAGS "#+- 0"
 # define NULL_PRINTOUT_PTR "(nil)"
 # define NULL_PRINTOUT_STR "(null)"
 # define FROM_NEGATIVE_WIDTH 2
-# define NOT_SET -1
+# define NO_PRECISION_SET -1
 # define NEGATIVE_PRECISION -2
 
 typedef struct s_struct

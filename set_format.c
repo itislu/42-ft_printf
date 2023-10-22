@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:27:21 by ldulling          #+#    #+#             */
-/*   Updated: 2023/10/22 19:27:22 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:21:27 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static void	set_specifier(const char *format, int *i, t_struct *f)
 {
 	char	*specifier;
 
-	specifier = ft_strchr("cspdiuxX%", format[*i]); // Potentially put into header file as global variable
+	specifier = ft_strchr(SPECIFIERS, format[*i]);
 	if (specifier)
 	{
 		f->specifier = *specifier;

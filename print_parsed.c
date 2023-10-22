@@ -6,7 +6,7 @@
 /*   By: ldulling <ldulling@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 16:12:14 by ldulling          #+#    #+#             */
-/*   Updated: 2023/10/22 19:27:07 by ldulling         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:26:19 by ldulling         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	print_flags(const char *format, int *i, t_struct *f)
 		printed += ft_putnchar_fd('-', 1, FD);
 	if (f->zero && (!f->minus || f->minus == FROM_NEGATIVE_WIDTH))
 		printed += ft_putnchar_fd('0', 1, FD);
-	while (format[*i] && ft_strchr("#+- 0", format[*i])) // header file
+	while (format[*i] && ft_strchr(FLAGS, format[*i]))
 		(*i)++;
 	return (printed);
 }
@@ -60,7 +60,7 @@ static int	print_width(const char *format, int *i, t_struct *f)
 
 	printed = 0;
 	if (f->width)
-		printed += ft_putnbr_base_fd(f->width, "0123456789", FD);	//macro
+		printed += ft_putnbr_base_fd(f->width, "0123456789", FD);
 	if (format[*i] == '*')
 		(*i)++;
 	else
@@ -78,7 +78,7 @@ static int	print_precision(const char *format, int *i, t_struct *f)
 	{
 		printed += ft_putnchar_fd('.', 1, FD);
 		(*i)++;
-		printed += ft_putnbr_base_fd(f->precision, "0123456789", FD);	//macro
+		printed += ft_putnbr_base_fd(f->precision, "0123456789", FD);
 		if (format[*i] == '*')
 			(*i)++;
 		else
