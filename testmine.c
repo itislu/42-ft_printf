@@ -30,16 +30,16 @@ int	test_ft_printf(void)
 {
 
 	int		i = -10;
-	char	*a = 1;
-	return (ft_printf("%+028.*pw",-16, a));
+	char	*a = &i;
+	return (ft_printf("%0pw",120, 100, a));
 }
 
 int	test_printf(void)
 {
 
 	int		i = -10;
-	char	*a = 1;
-	return (printf("%+028.*pw",-16, a));
+	char	*a = &i;
+	return (printf("%0pw",120, 100, a));
 }
 
 int	main(void)

@@ -70,7 +70,7 @@ static int 	totalnbrlen(long nbr, int len_nbr, t_struct *f)
 				len_totalnbr++;
 	if (ft_strchr("xX", f->specifier))
 		if (f->hash)
-			len_totalnbr += 2;
+			len_totalnbr += ft_strlen("0x");
 	return (len_totalnbr);
 }
 
